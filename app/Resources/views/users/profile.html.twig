@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div>
+        <h1>Hello, {{ user.fullName }} </h1>
+
+        <h3>{{ user.email }}</h3>
+
+        <img src="{{ asset('uploads/images/users/' ~ user.image) }}" alt="Missing image" width="150px" height="150px"/>
+
+    </div>
+
+    <div><br><br></div>
+    <div class="pull-left">
+        <a class="btn btn-success btn-xs" href="{{ path('edit_profile',{'id':user.id}) }}">Edit</a>
+        <a class="btn btn-default btn-xs" href="{{ path('blog_index') }}">back &raquo;</a>
+    </div>
+
+
+{% endblock %}

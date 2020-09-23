@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container body-content">
+        <div class="row">
+            {% for msg in app.session.flashBag.get('info') %}
+                <div class="alert alert-success" id="info">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+            {% for article in articles %}
+                <div class="col-md-4">
+                    <article>
+
+                        <header>
+                            <h2>{{ article.title }}</h2>
+                        </header>
+                        <a href="{{ path('article_view',{id:article.id}) }}">
+                            {% if(article.image) %}
+                                <img src="{{ asset('uploads/images/articles/'~ article.image)}}" width="300px" height="200px"/>
+                            {% else %}
+                                <img src="{{ asset('uploads/images/articles/deafultImage.jpg') }}" width="300px" height="200px"/>
+                            {% endif %}
+
+                        </a>
+
+                        <p>
+                            {{ article.summary }}
+                        </p>
+                        <small>Views: {{ article.viewCount }}</small><br />
+                        <small >
+                            Date Added: {{ article.dateAdded|date("F jS \\a\\t g:ia") }}
+                        </small>
+                        <small class="author">
+                            {{ article.author.fullName }}
+                        </small>
+
+
+                        <footer>
+                            <div class="pull-right">
+
+                                <a class="btn btn-default btn-xs"
+                                   href="{{ path('article_view',{'id':article.id })}}">Read more &raquo;</a>
+                            </div>
+                        </footer>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

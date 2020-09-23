@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{#{% block body_id 'article' %}#}
+{% block main %}
+<div class="container body-content">
+    <div class="row">
+        <div class="col-md-12">
+            <article>
+                <header>
+                    <h2>{{ article.title }}</h2>
+                </header>
+                <a href="{{ path('article_view',{id:article.id}) }}">
+                    <img src="{{ asset('uploads/images/articles/' ~ article.image) }}" width="300px" height="200px"/>
+                </a>
+
+                <p>
+                    {{ article.content }}
+                </p>
+
+                <small class="author">
+                    {{ article.author.fullName }}
+                </small>
+
+                <footer>
+                    <div class="pull-right">
+                        {% if app.getUser() and (app.getUser().isAuthor(article) or app.getUser().isAdmin())%}
+                        <a class="btn btn-success btn-xs" href="{{ path('article_edit',{'id':article.id}) }}">Edit</a>
+                        <a class="btn btn-danger btn-xs" href="{{ path('article_delete',{'id':article.id}) }}">Delete</a>
+                        <a class="btn btn-default btn-xs" href="{{ path('blog_index') }}">back &raquo;</a>
+                   {% endif %}
+                    </div>
+                </footer>
+            </article>
+            <br>
+            <a class="btn btn-success btn-sm" id="add"> Add Comment</a>
+            <div id="comment"></div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $('#add').click(function (){
+            $('#comment').empty();
+            let commentForm =
+                `
+                <div class="form-group">
+                        <label class="col-sm-4 control-label" for="article_content">Content</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" rows="6" id="article_content"
+                                  name="article[content]"></textarea>
+                        </div>
+                    </div>
+                `;
+            $('#comment').append(commentForm);
+            $('#comment').toggle();
+        })
+
+    </script>
+
+{% endblock %}
+
